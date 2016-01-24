@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="/socket.io/socket.io.js"> </script>
+
+	</head>
+	<body>
+		<input type="text" id="message_input"/>
+		<button onclick="sendMessage()">send</button>
+		<div id="chatlog"></div>
+		<script type="text/javascript">
+			var socketio = io.connect('127.0.0.1:1337');
+			socketio.on("message_to_client", function(data){
+				document.getElementById("chatlog").innerHTML = ("<hr/>" + data['message'] + document.getElementById("chatlog").innerHTML);
+			});
+
+			function sendMessage() {
+				var msg = document.getElementById("message_input").value;
+				socketio.emit("message_to_server", { message : msg});
+			}
+		</script>
+		<svg width="1000" height="250">
+			<rect width="150" height="150" fill="orange">
+ 				<animate attributeName="x" from="0" to="300" dur="3s" fill="freeze" repeatCount="2"/> 
+			</rect>
+		</svg>
+		<!--<svg width="500" height="500">
+			<path d="M 0 0 L200 200 L200 0 Z" style="stroke:#000;  fill:none;" />
+		</svg> -->
+		<form>
+			<label>Your name:</label>
+			<input id="user" name="username" type="text" placeholder="@yahoo.com" autofocus/>
+			<button id="button">Send</button>
+		</form>
+	</body>
+</html>
+
